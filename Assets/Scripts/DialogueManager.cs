@@ -9,7 +9,7 @@ public class DialogueManager : MonoBehaviour
 
     public Text nameText;
     public Text dialogueText;
-    public float letterPause = 0.2f;
+    public float letterPause = 0.1f;
     public Animator animator;
 
     private Queue<string> sentences;
@@ -57,7 +57,7 @@ public class DialogueManager : MonoBehaviour
         foreach(char letter in sentence.ToCharArray())
         {
             dialogueText.text += letter;
-            yield return new WaitForSeconds(letterPause);
+            yield return new WaitForSeconds(0.1f);
         }
     }
     public void EndDialogue()
