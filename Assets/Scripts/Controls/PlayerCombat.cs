@@ -15,9 +15,9 @@ public class PlayerCombat : MonoBehaviour
     public Transform attackPoint;
     public LayerMask enemyLayers;
 
-    public float attackRange = 0.5f;
-    public int attackDamage = 40;
-    public int maxHealth = 200;
+    public float attackRange;
+    public int attackDamage;
+    public int maxHealth;
     public int takedamage;
     public int currentHealth;
     public bool isdead = false;
@@ -107,5 +107,24 @@ public class PlayerCombat : MonoBehaviour
         this.enabled = false;
         isdead = true;
 
+    }
+
+    public void SavePlayer()
+    {
+        SaveSystem.SavePlayer(this);
+    }
+    public void LoadPlayer()
+    {
+        PlayerData data = SaveSystem.LoadPlayer();
+
+        currentHealth = data.currentHealth;
+        attackDamage = data.attackDamage;
+        attackRange = data.attackRange;
+
+        Vector3 position;
+        position.x = data.position[0];
+        position.y = data.position[1];
+        position.z = data.position[2];
+        transform.position = position;
     }
 }
