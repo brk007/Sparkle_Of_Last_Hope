@@ -54,7 +54,6 @@ public class EnemyBehavior : MonoBehaviour
                 Vector3 direction = Vector3.zero;
                 direction.Normalize();
                 movement = direction;
-
             }
             if (Vector2.Distance(transform.position, player.position) <= distance)
             {
@@ -69,7 +68,6 @@ public class EnemyBehavior : MonoBehaviour
                 {
                     animator.SetTrigger("Attack");
                     nextAttackTime = Time.time + 2f / attackRate;
-
                 }   
             }
         }
