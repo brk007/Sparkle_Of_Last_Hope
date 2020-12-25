@@ -21,8 +21,11 @@ public class PlayerCombat : MonoBehaviour
     public int takedamage;
     public int currentHealth;
     public bool isdead = false;
-    public bool attacking = false;
     private bool moving;
+
+    public int noOfClicks = 0;
+    float lastClickledTime = 0;
+    public float maxComboDelay = 0.9f;
 
     public HealthBar healthBar;
 
@@ -37,11 +40,23 @@ public class PlayerCombat : MonoBehaviour
     {
         healthBar.SetHealth(currentHealth);
 
+        if(Time.time - lastClickledTime > maxComboDelay)
+        {
+            noOfClicks = 0;
+        }
         if (Input.GetMouseButtonDown(0))
         {
-            moving = false;
-            animator.SetTrigger("Attack");
+            
+            lastClickledTime = Time.time;
+            noOfClicks++;
+
+            if (noOfClicks == 1)
+            {
+                animator.SetBool("Attack1", true);
+            }
+            noOfClicks = Mathf.Clamp(noOfClicks, 0, 3);
         }
+
         if ((Input.GetKey("w") | Input.GetKey("a") | Input.GetKey("d") | Input.GetKey("s")) && Input.GetMouseButtonDown(0) == false)
         {
             if (!this.animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
@@ -49,14 +64,14 @@ public class PlayerCombat : MonoBehaviour
         }
         else
         {
-            animator.SetInteger("AnimState", 0);
+            animator.SetBool("Run", false);
             m_body2d.velocity = Vector3.zero;
         }
     }
     void FixedUpdate()
     {
-        if (moving) { 
-            animator.SetInteger("AnimState", 2);
+        if (moving) {
+            animator.SetBool("Run", true);
             float moveHorizontal = Input.GetAxisRaw("Horizontal");
             float moveVertical = Input.GetAxisRaw("Vertical");
             if (moveHorizontal > 0)
@@ -76,6 +91,38 @@ public class PlayerCombat : MonoBehaviour
         {
             enemy.GetComponent<EnemyBehavior>().TakeDamage(attackDamage);
         }
+    }
+    void return1()
+    {
+        if (noOfClicks >= 2)
+        {
+            animator.SetBool("Attack2", true);
+        }
+        else
+        {
+            animator.SetBool("Attack1", false);
+            noOfClicks = 0;
+        }
+    }
+    void return2()
+    {
+        if (noOfClicks >= 3)
+        {
+            animator.SetBool("Attack3", true);
+        }
+        else
+        {
+            animator.SetBool("Attack2", false);
+            animator.SetBool("Attack1", false);
+            noOfClicks = 0;
+        }
+    }
+    void return3()
+    {
+        animator.SetBool("Attack1", false);
+        animator.SetBool("Attack2", false);
+        animator.SetBool("Attack3", false);
+        noOfClicks = 0;
     }
 
     void OnDrawGizmosSelected()
