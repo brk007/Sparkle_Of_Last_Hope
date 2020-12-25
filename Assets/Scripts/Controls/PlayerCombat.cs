@@ -29,6 +29,10 @@ public class PlayerCombat : MonoBehaviour
 
     public HealthBar healthBar;
 
+   void Awake()
+   {
+       DontDestroyOnLoad(this.gameObject);
+   }
     void Start()
     {
         currentHealth = maxHealth;
