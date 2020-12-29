@@ -17,6 +17,7 @@ public class PlayerCombat : MonoBehaviour
 
     public float attackRange;
     public int attackDamage;
+    public int absorbDamage = 10;
     public int maxHealth;
     public int takedamage;
     public int currentHealth;
@@ -29,10 +30,10 @@ public class PlayerCombat : MonoBehaviour
 
     public HealthBar healthBar;
 
-   void Awake()
-   {
-       DontDestroyOnLoad(this.gameObject);
-   }
+    void Awake()
+    {
+        DontDestroyOnLoad(this.gameObject);
+    }
     void Start()
     {
         currentHealth = maxHealth;
@@ -44,13 +45,23 @@ public class PlayerCombat : MonoBehaviour
     {
         healthBar.SetHealth(currentHealth);
 
-        if(Time.time - lastClickledTime > maxComboDelay)
+        if (Time.time - lastClickledTime > maxComboDelay)
         {
             noOfClicks = 0;
         }
+
+        if (Input.GetMouseButton(1))
+        {
+            animator.SetBool("BlockIdle", true);
+        }
+        else
+        {
+            animator.SetBool("BlockIdle", false);
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
-            
+
             lastClickledTime = Time.time;
             noOfClicks++;
 
@@ -74,7 +85,8 @@ public class PlayerCombat : MonoBehaviour
     }
     void FixedUpdate()
     {
-        if (moving) {
+        if (moving)
+        {
             animator.SetBool("Run", true);
             float moveHorizontal = Input.GetAxisRaw("Horizontal");
             float moveVertical = Input.GetAxisRaw("Vertical");
@@ -137,12 +149,23 @@ public class PlayerCombat : MonoBehaviour
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 
-    public void TakeDamage(int damage)
+    public void TakeHit(int damage)
     {
-        takedamage = damage;
-        animator.SetTrigger("Hurt");
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("BlockIdle"))
+        {
+            takedamage = damage - absorbDamage;
+            animator.SetBool("BlockIdle", false);
+            animator.SetTrigger("Block");
+        }
+        else
+        {
+            takedamage = damage;
+            animator.SetTrigger("Hurt");
+        }
+
     }
-    public void TakeRealDamage()
+
+    public void TakeDamage()
     {
         currentHealth -= takedamage;
         if (currentHealth <= 0)
@@ -152,12 +175,10 @@ public class PlayerCombat : MonoBehaviour
     }
     void Die()
     {
-
         animator.SetBool("IsDead", true);
         GetComponent<Collider2D>().enabled = false;
         this.enabled = false;
         isdead = true;
-
     }
 
     public void SavePlayer()
