@@ -66,7 +66,14 @@ public class EnemyBehavior : MonoBehaviour
                 animator.SetInteger("AnimState", 1);
                 if (Time.time >= nextAttackTime)
                 {
-                    animator.SetTrigger("Attack");
+                    if(Vector2.Distance(transform.position, player.position) <= distance)
+                    {
+                        animator.SetTrigger("Attack");
+                    }
+                    else
+                    {
+                        animator.SetInteger("AnimState", 0);
+                    }
                     nextAttackTime = Time.time + 2f / attackRate;
                 }   
             }
