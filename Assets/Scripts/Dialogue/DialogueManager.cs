@@ -9,7 +9,7 @@ public class DialogueManager : MonoBehaviour
 
     public Text nameText;
     public Text dialogueText;
-    public float letterPause = 0.1f;
+    public float letterPause;
     public Animator animator;
 
     private Queue<string> sentences;
