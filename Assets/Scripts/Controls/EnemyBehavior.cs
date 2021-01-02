@@ -22,6 +22,7 @@ public class EnemyBehavior : MonoBehaviour
     public int attackDamage = 20;
     public float attackRate = 2f;
     float nextAttackTime = 0f;
+    public int xpGain;
     public int takedamage;
 
     //imports
@@ -147,10 +148,12 @@ public class EnemyBehavior : MonoBehaviour
     }
     void Die()
     {
+        player.GetComponent<PlayerCombat>().GainXp(xpGain);
         animator.SetBool("IsDead",true);
         GetComponent<Collider2D>().enabled = false;
         healthBar.SetVisible(false);
-        this.enabled = false;      
+        this.enabled = false;
+        
     }
 }
 

@@ -12,6 +12,10 @@ public class PlayerCombat : MonoBehaviour
     public Rigidbody2D m_body2d;
     public float speed;
 
+    public int level = 1;
+    public int xp = 0;
+    private int upXp = 100;
+
     public Transform attackPoint;
     public LayerMask enemyLayers;
 
@@ -82,6 +86,17 @@ public class PlayerCombat : MonoBehaviour
             animator.SetBool("Run", false);
             m_body2d.velocity = Vector3.zero;
         }
+
+        if(xp >= upXp)
+        {
+            level += 1;
+            xp = 0;
+            upXp += 50; 
+        }
+    }
+    public void GainXp(int gainXp)
+    {
+        xp += gainXp;
     }
     void FixedUpdate()
     {
