@@ -33,6 +33,7 @@ public class PlayerCombat : MonoBehaviour
     public float maxComboDelay = 0.9f;
 
     public HealthBar healthBar;
+    public GameObject skillPanel;
 
     void Awake()
     {
@@ -91,12 +92,30 @@ public class PlayerCombat : MonoBehaviour
         {
             level += 1;
             xp = 0;
-            upXp += 50; 
+            upXp += 50;
+            skillPanel.GetComponent<TriggerPanel>().openPanel();
         }
     }
     public void GainXp(int gainXp)
     {
         xp += gainXp;
+    }
+    public void GainAttackDamage()
+    {
+        skillPanel.GetComponent<TriggerPanel>().closePanel();
+        attackDamage += 10;
+    }
+    public void GainBlockDamage()
+    {
+        skillPanel.GetComponent<TriggerPanel>().closePanel();
+        absorbDamage += 10;
+        
+    }
+    public void GainHP()
+    {
+        skillPanel.GetComponent<TriggerPanel>().closePanel();
+        maxHealth += 20;
+        
     }
     void FixedUpdate()
     {
@@ -177,7 +196,6 @@ public class PlayerCombat : MonoBehaviour
             takedamage = damage;
             animator.SetTrigger("Hurt");
         }
-
     }
 
     public void TakeDamage()
