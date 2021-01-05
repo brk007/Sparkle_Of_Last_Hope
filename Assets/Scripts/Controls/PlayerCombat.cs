@@ -26,6 +26,7 @@ public class PlayerCombat : MonoBehaviour
     public int takedamage;
     public int currentHealth;
     public bool isdead = false;
+    public static bool isMouseInputEnabled = true;
     private bool moving;
 
     public int noOfClicks = 0;
@@ -66,11 +67,10 @@ public class PlayerCombat : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-
             lastClickledTime = Time.time;
             noOfClicks++;
 
-            if (noOfClicks == 1)
+            if (noOfClicks == 1 && isMouseInputEnabled == true)
             {
                 animator.SetBool("Attack1", true);
             }
@@ -135,7 +135,7 @@ public class PlayerCombat : MonoBehaviour
     }
 
     void Attack()
-    {
+    { 
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
         foreach (Collider2D enemy in hitEnemies)
         {

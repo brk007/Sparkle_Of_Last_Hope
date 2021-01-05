@@ -29,6 +29,7 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(Dialogue dialogue)
     {
+        PlayerCombat.isMouseInputEnabled = false;
         animator.SetBool("IsOpen", true);
         nameText.text = dialogue.name;
         sentences.Clear();
@@ -62,6 +63,7 @@ public class DialogueManager : MonoBehaviour
     }
     public void EndDialogue()
     {
+        PlayerCombat.isMouseInputEnabled = true;
         animator.SetBool("IsOpen", false);
     }
 
