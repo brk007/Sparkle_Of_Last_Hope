@@ -12,6 +12,7 @@ public class EnemyBehavior : MonoBehaviour
     //movement limit
     public float distance;
     public float mindistance;
+    public float moveSpeed;
 
     //combat
     public int maxHealth = 100;
@@ -26,14 +27,11 @@ public class EnemyBehavior : MonoBehaviour
     public int takedamage;
 
     //imports
-    public Transform player;
-    
-    public float moveSpeed;
+    public Transform player;  
     private Rigidbody2D rb;
     private Vector2 movement;
     private Animator animator;
     private Sensor_Bandit m_groundSensor;
-
     public HealthBar healthBar;
 
     void Start()
@@ -111,7 +109,10 @@ public class EnemyBehavior : MonoBehaviour
         Collider2D[] hitPlayer = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, playerLayer);
         foreach (Collider2D Player in hitPlayer)
         {
-            player.GetComponent<PlayerCombat>().TakeHit(attackDamage); 
+            if(animator.GetBool("IsDead") == false) 
+            {
+                player.GetComponent<PlayerCombat>().TakeHit(attackDamage);
+            }
         }
     }
     void OnDrawGizmosSelected()
@@ -153,7 +154,6 @@ public class EnemyBehavior : MonoBehaviour
         GetComponent<Collider2D>().enabled = false;
         healthBar.SetVisible(false);
         this.enabled = false;
-        
     }
 }
 
