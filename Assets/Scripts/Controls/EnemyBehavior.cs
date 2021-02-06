@@ -47,7 +47,7 @@ public class EnemyBehavior : MonoBehaviour
     void Update()
     {
         if (player.GetComponent<PlayerCombat>().isdead == false) {
-            if (Vector2.Distance(transform.position, player.position) > 10)
+            if (Vector2.Distance(transform.position, player.position) > distance)
             {
                 animator.SetInteger("AnimState", 0);
                 Vector3 direction = Vector3.zero;
@@ -59,10 +59,11 @@ public class EnemyBehavior : MonoBehaviour
                 chase();
                 changeposition();
             }
+            if (Vector2.Distance(transform.position, player.position) <= mindistance*1.03)
+                animator.SetInteger("AnimState", 1);
             if (Vector2.Distance(transform.position, player.position) <= mindistance)
             {
                 changeposition();
-                animator.SetInteger("AnimState", 1);
                 if (Time.time >= nextAttackTime)
                 {
                     if(Vector2.Distance(transform.position, player.position) <= distance)

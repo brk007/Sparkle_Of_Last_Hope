@@ -8,7 +8,7 @@ public class PlayerData
 {
  
     ///public int level;
-    public int currentHealth;
+    public float currentHealth;
     public int attackDamage;
     public float attackRange;
 

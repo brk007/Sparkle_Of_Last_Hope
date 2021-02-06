@@ -13,8 +13,8 @@ public class PlayerCombat : MonoBehaviour
     public float speed;
 
     public int level = 1;
-    public int xp = 0;
-    private int upXp = 100;
+    public double xp = 0;
+    private double upXp = 100;
 
     public Transform attackPoint;
     public LayerMask enemyLayers;
@@ -22,9 +22,11 @@ public class PlayerCombat : MonoBehaviour
     public float attackRange;
     public int attackDamage;
     public int absorbDamage = 10;
-    public int maxHealth;
+    public float currentStamina;
+    public float maxStamina;
+    public float maxHealth;
     public int takedamage;
-    public int currentHealth;
+    public float currentHealth;
     public bool isdead = false;
     public static bool isMouseInputEnabled = true;
     private bool moving;
@@ -33,6 +35,7 @@ public class PlayerCombat : MonoBehaviour
     float lastClickledTime = 0;
     public float maxComboDelay = 0.9f;
 
+    public StaminaBar staminaBar;
     public HealthBar healthBar;
     public GameObject skillPanel;
 
@@ -43,6 +46,8 @@ public class PlayerCombat : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
+        currentStamina = maxStamina;
+        staminaBar.SetMaxStamina(maxStamina);
         healthBar.SetMaxHealth(maxHealth);
         animator = GetComponent<Animator>();
         m_body2d = GetComponent<Rigidbody2D>();
@@ -50,6 +55,13 @@ public class PlayerCombat : MonoBehaviour
     void Update()
     {
         healthBar.SetHealth(currentHealth);
+      
+        staminaBar.SetStamina(currentStamina);
+        if (currentStamina < maxStamina)
+        {
+            currentStamina +=  2 * Time.deltaTime;
+        }
+
 
         if (Time.time - lastClickledTime > maxComboDelay)
         {
@@ -58,7 +70,9 @@ public class PlayerCombat : MonoBehaviour
 
         if (Input.GetMouseButton(1))
         {
+            if(currentStamina >= 10) { 
             animator.SetBool("BlockIdle", true);
+            }
         }
         else
         {
@@ -67,14 +81,17 @@ public class PlayerCombat : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
+            if(currentStamina >= 10) { 
             lastClickledTime = Time.time;
             noOfClicks++;
 
             if (noOfClicks == 1 && isMouseInputEnabled == true)
             {
                 animator.SetBool("Attack1", true);
+                currentStamina = currentStamina - 10;
             }
             noOfClicks = Mathf.Clamp(noOfClicks, 0, 3);
+            }
         }
 
         if ((Input.GetKey("w") | Input.GetKey("a") | Input.GetKey("d") | Input.GetKey("s")) && Input.GetMouseButtonDown(0) == false)
@@ -92,7 +109,7 @@ public class PlayerCombat : MonoBehaviour
         {
             level += 1;
             xp = 0;
-            upXp += 50;
+            upXp += upXp*1.1;
             skillPanel.GetComponent<TriggerPanel>().openPanel();
         }
     }
@@ -147,6 +164,7 @@ public class PlayerCombat : MonoBehaviour
         if (noOfClicks >= 2)
         {
             animator.SetBool("Attack2", true);
+            currentStamina = currentStamina - 10;
         }
         else
         {
@@ -159,6 +177,7 @@ public class PlayerCombat : MonoBehaviour
         if (noOfClicks >= 3)
         {
             animator.SetBool("Attack3", true);
+            currentStamina = currentStamina - 10;
         }
         else
         {
@@ -187,6 +206,7 @@ public class PlayerCombat : MonoBehaviour
     {
         if (animator.GetCurrentAnimatorStateInfo(0).IsName("BlockIdle"))
         {
+            currentStamina = currentStamina - 5;
             takedamage = damage - absorbDamage;
             animator.SetBool("BlockIdle", false);
             animator.SetTrigger("Block");

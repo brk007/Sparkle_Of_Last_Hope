@@ -8,15 +8,15 @@ public class TriggerPanel : MonoBehaviour
 
     public void openPanel()
     {
+        PlayerCombat.isMouseInputEnabled = false;
         Animator animator = SkillPanel.GetComponent<Animator>();
         animator.SetBool("IsOpen", true);
-        PlayerCombat.isMouseInputEnabled = false;
     }
     public void closePanel()
-    {
+    {        
+        PlayerCombat.isMouseInputEnabled = true;
         Animator animator = SkillPanel.GetComponent<Animator>();
         animator.SetBool("IsOpen", false);
-        PlayerCombat.isMouseInputEnabled = true;
     }
     public void Resume()
     {

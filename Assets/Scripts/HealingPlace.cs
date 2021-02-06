@@ -22,7 +22,7 @@ public class HealingPlace : MonoBehaviour
 
 	IEnumerator Heal()
 	{
-		for (int currentHealth = playerCombat.currentHealth; currentHealth <= playerCombat.maxHealth; currentHealth += 5)
+		for (float currentHealth = playerCombat.currentHealth; currentHealth <= playerCombat.maxHealth; currentHealth += 10 * Time.deltaTime)
 		{
 			playerCombat.currentHealth = currentHealth;
 			yield return new WaitForSeconds(Time.deltaTime);
