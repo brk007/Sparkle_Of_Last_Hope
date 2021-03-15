@@ -1,69 +1,60 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO.Pipes;
 using UnityEngine;
 using UnityEngine.UI;
 
 
 public class DialogueManager : MonoBehaviour
 {
-    public Text nameText;
-    public Text dialogueText;
-    public float letterPause;
-    public Animator animator;
 
-    private Queue<string> sentences;
+   public GameObject player;
+    public GameObject dialogueUI;
 
+    Text npcName;
+    Text DialogueText;
+    Text Response;
+    Animator animator;
+
+    int CurDialogue = 0;
+    int toWhere = 0;
+    
     void Start()
     {
-        sentences = new Queue<string>();
-        InvokeRepeating("NextSentence", 0, 0.1f);
-    }
-    void NextSentence() 
-    {
-        if (Input.GetKey("e"))
-        {
-            DisplayNextSentence();
-        }
+        animator.SetBool("IsOpen", false);
     }
 
-    public void StartDialogue(Dialogue dialogue)
+    void NPCDialogue(int id, string name, string dialogue)
+    {
+        this.DialogueText.text = dialogue;
+        id = CurDialogue;
+        name = npcName.text;
+        
+    }
+    void PlayerDialogue(int id, string response, int where)
+    {   if(id == CurDialogue)
+        {
+            Response.text = response;
+            toWhere = where;
+        }
+        
+    }
+
+    void Manager()
+    {
+        
+    }
+
+    public void StartConversation()
     {
         PlayerCombat.isMouseInputEnabled = false;
         animator.SetBool("IsOpen", true);
-        nameText.text = dialogue.name;
-        sentences.Clear();
+    }
 
-        foreach (string sentence in dialogue.sentences)
-        {
-            sentences.Enqueue(sentence);
-        } 
-            DisplayNextSentence();
-            
-    }
-    public void DisplayNextSentence()
-    {
-        if (sentences.Count == 0)
-        {
-            EndDialogue();
-            return;
-        }
-        string sentence = sentences.Dequeue();
-        StopAllCoroutines();
-        StartCoroutine(TypeSentence(sentence));
-    }
-    IEnumerator TypeSentence(string sentence)
-    {
-        dialogueText.text = "";
-        foreach(char letter in sentence.ToCharArray())
-        {
-            dialogueText.text += letter;
-            yield return new WaitForSeconds(0.1f);
-        }
-    }
     public void EndDialogue()
     {
         PlayerCombat.isMouseInputEnabled = true;
         animator.SetBool("IsOpen", false);
     }
-
+   
 }

@@ -25,6 +25,7 @@ public class HealingPlace : MonoBehaviour
 		for (float currentHealth = playerCombat.currentHealth; currentHealth <= playerCombat.maxHealth; currentHealth += 10 * Time.deltaTime)
 		{
 			playerCombat.currentHealth = currentHealth;
+			playerCombat.currentStamina += 10 * Time.deltaTime;
 			yield return new WaitForSeconds(Time.deltaTime);
 		}
 		playerCombat.currentHealth = playerCombat.maxHealth;
