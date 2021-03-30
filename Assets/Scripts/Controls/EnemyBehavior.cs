@@ -46,6 +46,8 @@ public class EnemyBehavior : MonoBehaviour
 
     void Update()
     {
+        player = GameObject.Find("Player").transform;
+
         if (player.GetComponent<PlayerCombat>().isdead == false) {
             if (Vector2.Distance(transform.position, player.position) > distance)
             {

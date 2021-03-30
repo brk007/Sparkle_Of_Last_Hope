@@ -5,12 +5,18 @@ using UnityEngine;
 
 public class HealingPlace : MonoBehaviour
 {
-	public PlayerCombat playerCombat;
-	public HealthBar healthBar;
+	public PlayerCombat PlayerCombat;
+	public GameObject healthbar;
+
+	void Update()
+    {
+		healthbar = GameObject.Find("Canvas/Healthbar");
+		PlayerCombat = GameObject.Find("Player").GetComponent("PlayerCombat") as PlayerCombat;
+	}
 
 	void OnTriggerEnter2D(Collider2D col)
 	{
-		if (col.gameObject.name.Equals("Player") && playerCombat.currentHealth < playerCombat.maxHealth)
+		if (col.gameObject.name.Equals("Player") && PlayerCombat.currentHealth < PlayerCombat.maxHealth)
 			StartCoroutine("Heal");
 	}
 
@@ -22,13 +28,13 @@ public class HealingPlace : MonoBehaviour
 
 	IEnumerator Heal()
 	{
-		for (float currentHealth = playerCombat.currentHealth; currentHealth <= playerCombat.maxHealth; currentHealth += 10 * Time.deltaTime)
+		for (float currentHealth = PlayerCombat.currentHealth; currentHealth <= PlayerCombat.maxHealth; currentHealth += 10 * Time.deltaTime)
 		{
-			playerCombat.currentHealth = currentHealth;
-			playerCombat.currentStamina += 10 * Time.deltaTime;
+			PlayerCombat.currentHealth = currentHealth;
+			PlayerCombat.currentStamina += 10 * Time.deltaTime;
 			yield return new WaitForSeconds(Time.deltaTime);
 		}
-		playerCombat.currentHealth = playerCombat.maxHealth;
+		PlayerCombat.currentHealth = PlayerCombat.maxHealth;
 	}
 
 }

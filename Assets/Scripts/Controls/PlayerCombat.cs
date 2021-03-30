@@ -39,10 +39,6 @@ public class PlayerCombat : MonoBehaviour
     public HealthBar healthBar;
     public GameObject skillPanel;
 
-    void Awake()
-    {
-        DontDestroyOnLoad(this.gameObject);
-    }
     void Start()
     {
         currentHealth = maxHealth;
@@ -130,6 +126,7 @@ public class PlayerCombat : MonoBehaviour
     }
     public void GainHP()
     {
+        isMouseInputEnabled = true;
         skillPanel.GetComponent<TriggerPanel>().closePanel();
         maxHealth += 20;
         

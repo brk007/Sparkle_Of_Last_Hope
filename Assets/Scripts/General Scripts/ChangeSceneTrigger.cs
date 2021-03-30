@@ -13,6 +13,7 @@ public class ChangeSceneTrigger : MonoBehaviour
     {
         if (col.gameObject.name.Equals("Player"))
         {
+            PlayerCombat.isMouseInputEnabled = true;
             levelLoader.LoadNextLevel(mapNumber);
         }
     }
