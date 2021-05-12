@@ -14,7 +14,6 @@ public class UIManager : MonoBehaviour
     public Text[] text_Choices;
     public VIDE_Assign inTrigger;
 
-    // Start is called before the first frame update
     void Start()
     {
         VD.LoadDialogues();
@@ -23,7 +22,6 @@ public class UIManager : MonoBehaviour
         inTrigger = null;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.Q))

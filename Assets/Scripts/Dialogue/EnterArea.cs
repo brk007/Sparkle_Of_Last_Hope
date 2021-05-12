@@ -5,19 +5,24 @@ using UnityEngine;
 public class EnterArea : MonoBehaviour
 {
 	public VIDE_Assign component;
-	public UIManager UIManager;
+	public GameObject UIObject;
 	public GameObject dialogue;
 
 	void OnTriggerEnter2D(Collider2D col)
 	{
 		if (col.gameObject.name.Equals("Player"))
 		{
-			UIManager.inTrigger = dialogue.GetComponent<VIDE_Assign>();
+			UIObject.GetComponent<UIManager>().inTrigger = dialogue.GetComponent<VIDE_Assign>();
 		}
 	}
 	void OnTriggerExit2D(Collider2D col)
 	{
-		UIManager.inTrigger = null;
+		UIObject.GetComponent<UIManager>().inTrigger = null;
+
+	}
+	void Update()
+    {
+		UIObject = GameObject.Find("UIManager");
 
 	}
 }

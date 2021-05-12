@@ -7,14 +7,19 @@ public class ChangeSceneTrigger : MonoBehaviour
 {
     public int prevNumber;
     public int mapNumber;
-    public LevelLoader levelLoader;
+    public GameObject Changer;
 
-    void OnTriggerEnter2D(Collider2D col)
+    public void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.name.Equals("Player"))
         {
             PlayerCombat.isMouseInputEnabled = true;
-            levelLoader.LoadNextLevel(mapNumber);
+            Changer.GetComponent<LevelLoader>().LoadNextLevel(mapNumber);
         }
+    }
+    public void Update()
+    {
+        Changer = GameObject.Find("LevelLoader");
+
     }
 }

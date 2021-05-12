@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class DialogueManager : MonoBehaviour
 {
 
-   public GameObject player;
+    public GameObject player;
     public GameObject dialogueUI;
 
     Text npcName;
