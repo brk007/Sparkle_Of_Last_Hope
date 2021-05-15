@@ -47,14 +47,13 @@ public class DialogueManager : MonoBehaviour
 
     public void StartConversation()
     {
-        PlayerCombat.isMouseInputEnabled = false;
         animator.SetBool("IsOpen", true);
     }
 
     public void EndDialogue()
     {
-        PlayerCombat.isMouseInputEnabled = true;
         animator.SetBool("IsOpen", false);
+
     }
    
 }

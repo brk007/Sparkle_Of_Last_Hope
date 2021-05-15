@@ -12,11 +12,13 @@ public class EnterArea : MonoBehaviour
 	{
 		if (col.gameObject.name.Equals("Player"))
 		{
+			dialogue.transform.GetChild(0).gameObject.SetActive(true);
 			UIObject.GetComponent<UIManager>().inTrigger = dialogue.GetComponent<VIDE_Assign>();
 		}
 	}
 	void OnTriggerExit2D(Collider2D col)
 	{
+		dialogue.transform.GetChild(0).gameObject.SetActive(false);
 		UIObject.GetComponent<UIManager>().inTrigger = null;
 
 	}

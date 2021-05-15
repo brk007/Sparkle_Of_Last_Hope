@@ -77,9 +77,9 @@ public class PlayerCombat : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            if(currentStamina >= 10) { 
-            lastClickledTime = Time.time;
-            noOfClicks++;
+            if(currentStamina >= 10) {
+                noOfClicks++;
+                lastClickledTime = Time.time;
 
             if (noOfClicks == 1 && isMouseInputEnabled == true)
             {
@@ -111,16 +111,19 @@ public class PlayerCombat : MonoBehaviour
     }
     public void GainXp(int gainXp)
     {
+        isMouseInputEnabled = true;
         xp += gainXp;
     }
     public void GainAttackDamage()
     {
         skillPanel.GetComponent<TriggerPanel>().closePanel();
+        isMouseInputEnabled = true;
         attackDamage += 10;
     }
     public void GainBlockDamage()
     {
         skillPanel.GetComponent<TriggerPanel>().closePanel();
+        isMouseInputEnabled = true;
         absorbDamage += 10;
         
     }

@@ -80,7 +80,7 @@ public class UIManager : MonoBehaviour
     }
     void End(VD.NodeData data)
     {
-        PlayerCombat.isMouseInputEnabled = false;
+        PlayerCombat.isMouseInputEnabled = true;
         animator.SetBool("IsOpen", false);
 
         container_NPC.SetActive(false);
